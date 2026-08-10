@@ -37,7 +37,7 @@ class App(tk.Tk):
         self.bind('<Control-w>', lambda _: self.destroy())
 
         # wire button behavior
-        self.gui.reset_button.configure(command=self.stop_timer)
+        self.gui.reset_button.set_command(self.reset)
         for time_button in self.gui.time_buttons:
             time_button.configure(command=lambda t=time_button.time_minutes: self.start_timer(t))
 
@@ -47,7 +47,6 @@ class App(tk.Tk):
         # configure placeholder
         self._timer = None
 
-        self._blink_id = None
         self._update_timer_text_id = None
 
     def start_timer(self, time_minutes: int):
@@ -64,23 +63,15 @@ class App(tk.Tk):
     def end_timer(self):
         self.after_cancel(self._update_timer_text_id)
         self._force_to_front()
-        self.blink(True)
+        self.gui.reset_button.start_blinking()
 
     def update_timer_text(self):
         self._update_timer_text_id = self.after(_TIMER_TEXT_UPDATE_PERIOD,
                                                 self.update_timer_text)
-        self.gui.reset_button.hover_text.set(self._timer.get_time_str())
+        self.gui.reset_button.hover_text = self._timer.get_time_str()
 
-    def blink(self, on: bool):
-        self._blink_id = self.after(_BLINK_PERIOD, lambda: self.blink(not on))
-        if on:
-            self.gui.flash_on()
-        else:
-            self.gui.flash_off()
-
-    def stop_timer(self):
-        if self._blink_id is not None:
-            self.after_cancel(self._blink_id)
+    def reset(self):
+        self.gui.reset_button.stop_blinking()
         self.after_cancel(self._update_timer_text_id)
         self.gui.show_time_buttons()
 

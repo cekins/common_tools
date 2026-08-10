@@ -2,3 +2,5 @@ FONT = 'Helvetica 36 bold'
 
 
 TIME_OPTIONS = [25, 1]
+
+BLINK_PERIOD_MILLIS = 500

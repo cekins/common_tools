@@ -34,31 +34,28 @@ class GUI(tk.Frame):
         self.master.geometry(self.WINDOW_DIMENSIONS)
 
         # create buttons
-        self.frame_reset = tk.Frame(self,
-                                    highlightbackground='light gray',
-                                    highlightthickness=10)
+        self.reset_button = ResetButton(self)
         self.time_buttons = []
         for time_option in _settings.TIME_OPTIONS:
             self.time_buttons.append(TimeButton(self, time_option))
-        self.reset_button = ResetButton(self.frame_reset)
 
         # pack reset button into frame
         self.reset_button.pack(expand=True, fill='both')
 
     def show_time_buttons(self):
-        self.frame_reset.pack_forget()
+        self.reset_button.pack_forget()
         for time_button in self.time_buttons:
             time_button.pack(side='left', expand=True, fill='both')
 
     def show_reset_button(self):
         for time_button in self.time_buttons:
             time_button.pack_forget()
-        self.frame_reset.pack(expand=True, fill='both')
+        self.reset_button.pack(expand=True, fill='both')
 
     def flash_on(self):
-        self.frame_reset.configure(highlightbackground='green')
+        self.reset_button.configure(highlightbackground='green')
         self.reset_button.configure(bg='green')
 
     def flash_off(self):
-        self.frame_reset.configure(highlightbackground='light gray')
+        self.reset_button.configure(highlightbackground='light gray')
         self.reset_button.configure(bg='light gray')
