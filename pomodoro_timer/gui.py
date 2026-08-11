@@ -12,9 +12,9 @@ TODO
 
 import tkinter as tk
 
+import _settings
 from _reset_button import ResetButton
 from _time_button import TimeButton
-from pomodoro_timer import _settings
 
 
 class GUI(tk.Frame):

@@ -2,7 +2,7 @@
 
 import tkinter as tk
 
-from pomodoro_timer import _settings
+import _settings
 
 _NON_HOVER_TEXT = 'Reset'
 
