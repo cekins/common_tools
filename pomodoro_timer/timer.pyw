@@ -58,7 +58,6 @@ class App(tk.Tk):
         self.update_timer_text()
 
         self.gui.show_reset_button()
-        self.gui.flash_off()
 
     def end_timer(self):
         self.after_cancel(self._update_timer_text_id)
@@ -68,11 +67,13 @@ class App(tk.Tk):
     def update_timer_text(self):
         self._update_timer_text_id = self.after(_TIMER_TEXT_UPDATE_PERIOD,
                                                 self.update_timer_text)
-        self.gui.reset_button.hover_text = self._timer.get_time_str()
+        self.gui.reset_button.hover_text.set(self._timer.get_time_str())
 
     def reset(self):
+        if self._update_timer_text_id is not None:
+            self.after_cancel(self._update_timer_text_id)
+
         self.gui.reset_button.stop_blinking()
-        self.after_cancel(self._update_timer_text_id)
         self.gui.show_time_buttons()
 
     def _force_to_front(self):

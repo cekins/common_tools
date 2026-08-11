@@ -17,14 +17,18 @@ class ResetButton(tk.Frame):
                          highlightbackground='light gray',
                          highlightthickness=10)
         # dynamic
-        self.hover_text = None
-        self._non_hover_text = 'Reset'
+        self.hover_text = tk.StringVar()
+        self._non_hover_text = tk.StringVar(value='Reset')
 
         # widgets
-        self._button = tk.Button()
+        self._button = tk.Button(self, font=_settings.FONT,
+                                 textvariable=self._non_hover_text)
 
-        self.bind('<Enter>', self._mouse_enters)
-        self.bind('<Leave>', self._mouse_leaves)
+        self._button.bind('<Enter>', self._mouse_enters)
+        self._button.bind('<Leave>', self._mouse_leaves)
+
+        # arrange
+        self._button.pack(expand=True, fill='both')
 
         # store after_ids for cancelling
         self._blink_id = None
@@ -44,7 +48,8 @@ class ResetButton(tk.Frame):
             self._set_color(_FLASH_OFF_COLOR)
 
     def stop_blinking(self):
-        self.after_cancel(self._blink_id)
+        if self._blink_id is not None:
+            self.after_cancel(self._blink_id)
         self._set_color(_FLASH_OFF_COLOR)
 
     def _set_color(self, color: str):
@@ -53,8 +58,8 @@ class ResetButton(tk.Frame):
 
     def _mouse_enters(self, _):
         """TODO"""
-        self._button.configure(text=self.hover_text)
+        self._button.configure(textvariable=self.hover_text)
 
     def _mouse_leaves(self, _):
         """TODO"""
-        self._button.configure(text=self._non_hover_text)
+        self._button.configure(textvariable=self._non_hover_text)

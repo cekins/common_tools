@@ -51,11 +51,3 @@ class GUI(tk.Frame):
         for time_button in self.time_buttons:
             time_button.pack_forget()
         self.reset_button.pack(expand=True, fill='both')
-
-    def flash_on(self):
-        self.reset_button.configure(highlightbackground='green')
-        self.reset_button.configure(bg='green')
-
-    def flash_off(self):
-        self.reset_button.configure(highlightbackground='light gray')
-        self.reset_button.configure(bg='light gray')
